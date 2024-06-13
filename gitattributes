@@ -1,1 +1,5 @@
+# Forzar C# para archivos .cs
+*.cs linguist-language=CSharp
+
+# Marcar todos los archivos .cs como detectables
 *.cs linguist-detectable=true
