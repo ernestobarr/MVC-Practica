@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ClasificaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="status">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="users" Relationship="ClasificaModel.FK_user_status" FromRole="status" ToRole="user" />
+  </EntityType>
+  <EntityContainer Name="ClasificaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="status" EntityType="Self.status" />
+    <EntitySet Name="users" EntityType="ClasificaModel.user" />
+    <AssociationSet Name="FK_user_status" Association="ClasificaModel.FK_user_status">
+      <End Role="status" EntitySet="status" />
+      <End Role="user" EntitySet="users" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="idStatus" Type="Int32" />
+    <Property Name="edad" Type="Int32" />
+    <NavigationProperty Name="status" Relationship="ClasificaModel.FK_user_status" FromRole="user" ToRole="status" />
+  </EntityType>
+  <Association Name="FK_user_status">
+    <End Type="ClasificaModel.status" Role="status" Multiplicity="0..1" />
+    <End Type="ClasificaModel.user" Role="user" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="status">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="user">
+        <PropertyRef Name="idStatus" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
